@@ -8,19 +8,29 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _rotate = 600f;
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private bool isJumping;
 
     private Rigidbody _rb;
     private Vector3 _moveDirect;
-    private bool _isGrounded;
-
     private Animator _animator;
+
+
+    public float sphereRadius = 0.5f;
+    public LayerMask groundLayer;
+    public bool isGrounded; 
+    public Transform groundCheckPosition; 
 
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _animator= GetComponent<Animator>();
+
+        if (groundCheckPosition == null)
+        {
+            groundCheckPosition = transform;
+        }
+
     }
 
     private void Update()
@@ -45,23 +55,31 @@ public class PlayerMovement : MonoBehaviour
         }
         
 
-        if (_isGrounded && Input.GetKeyDown(KeyCode.Space)) {
-            Jump();
-            
-        }
-        if (!_isGrounded)
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space) && isJumping)
         {
-            _animator.SetBool("Jumping", true);
+            Jump();
+            isJumping = false;
+        }
+
+        if (!IsGrounded())
+        {
+            isJumping = false;
         }
         else
         {
-            _animator.SetBool("Jumping", false);
+            isJumping = true;
         }
-        
 
-
+#if UNITY_EDITOR
+        DebugDrawSphere();
+#endif
     }
-    
+
+    private void FixedUpdate()
+    {
+        CheckGround();
+    }
+
 
     private void Move()
     {
@@ -89,22 +107,31 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+        _animator.SetTrigger("Jump");
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void CheckGround()
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            _isGrounded = true;
-        }
+        isGrounded = Physics.CheckSphere(groundCheckPosition.position, sphereRadius, groundLayer);
     }
 
-    private void OnCollisionExit(Collision other)
+    private void OnDrawGizmos()
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            _isGrounded = false;
-        }
+        Gizmos.color = isGrounded ? Color.green : Color.red;
+
+        Gizmos.DrawWireSphere(groundCheckPosition.position, sphereRadius);
     }
+
+    public bool IsGrounded()
+    {
+        return isGrounded;
+    }
+
+#if UNITY_EDITOR
+    private void DebugDrawSphere()
+    {
+        Debug.DrawLine(groundCheckPosition.position - Vector3.up * sphereRadius, groundCheckPosition.position + Vector3.up * sphereRadius, isGrounded ? Color.green : Color.red);
+    }
+#endif
 
 }
