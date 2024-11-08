@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4808491935028797344}
   - component: {fileID: 4030448514211226985}
   - component: {fileID: 6638368287331694898}
+  - component: {fileID: 154253431990696614}
   m_Layer: 0
   m_Name: Half_Donut_Stick
   m_TagString: Untagged
@@ -83,6 +84,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &154253431990696614
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180473451934460961}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.33967566, y: 0.02, z: 0.02}
+  m_Center: {x: 0.1698603, y: 0, z: 4.656613e-10}
 --- !u!1 &2357793389336497962
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +116,7 @@ GameObject:
   - component: {fileID: 2866542899199482612}
   m_Layer: 0
   m_Name: Half_Donut
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -208,6 +230,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7978569106598315725}
+  - component: {fileID: 2434359972014194989}
+  - component: {fileID: 5925911224349603557}
   m_Layer: 0
   m_Name: MovingStick
   m_TagString: Untagged
@@ -224,7 +248,7 @@ Transform:
   m_GameObject: {fileID: 3201073322391172674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.279, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -233,6 +257,41 @@ Transform:
   - {fileID: 4808491935028797344}
   m_Father: {fileID: 2866542899199482612}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2434359972014194989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201073322391172674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5868949d3e9aa004daaf41250e0c31c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveDistance: 0.65
+  _moveTime: 1
+--- !u!65 &5925911224349603557
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201073322391172674}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.19664414, y: 0.09096489, z: 0.31198302}
+  m_Center: {x: -0.18229848, y: -0.00883379, z: -0.0009579182}
 --- !u!1 &5289737857364048647
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +386,7 @@ GameObject:
   - component: {fileID: 763813010107568213}
   - component: {fileID: 232649187495075016}
   - component: {fileID: 6335882552588725004}
+  - component: {fileID: 1752624302841571274}
   m_Layer: 0
   m_Name: Half_Donut_Sphere
   m_TagString: Untagged
@@ -399,6 +459,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1752624302841571274
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6558303867384453147}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.047042616, y: 0.04704263, z: 0.04704263}
+  m_Center: {x: -0.000000056810677, y: 0, z: 9.313226e-10}
 --- !u!1 &7603169082658862411
 GameObject:
   m_ObjectHideFlags: 0
