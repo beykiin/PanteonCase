@@ -10,23 +10,19 @@ public class FallingShiningObstacles : MonoBehaviour
     [SerializeField] private Transform startPointPosition;
     [SerializeField] private Transform endPointPosition;
     [SerializeField] private float moveTime = 5f;
-    [SerializeField] private float rotationSpeed = 360f;
+    [SerializeField] private float rotateDegree = 360f;
     [SerializeField] private float resetDelay = 2f;
+
+    private Vector3 _baseRotation = new Vector3(0, 0, 90);
 
     private void Start()
     {
-
-        transform.rotation = Quaternion.Euler(90, 90, 0);
-        Rolling();    
-    }
-
-    private void Rolling()
-    {
-        RollDown();
+        RollDown();    
     }
 
     private void RollDown()
     {
+        transform.rotation = Quaternion.Euler(_baseRotation);
         transform.DOMove(endPointPosition.position, moveTime)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
@@ -34,7 +30,7 @@ public class FallingShiningObstacles : MonoBehaviour
                 StartCoroutine(ResetObstacle());
             });
 
-        transform.DORotate(new Vector3(0f, rotationSpeed, 0f), moveTime, RotateMode.FastBeyond360)
+        transform.DORotate(new Vector3(-rotateDegree, 0f, 0f), moveTime, RotateMode.WorldAxisAdd)
             .SetEase(Ease.Linear);
     } 
 
@@ -44,6 +40,6 @@ public class FallingShiningObstacles : MonoBehaviour
 
 
         transform.position = startPointPosition.position;
-        Rolling();
+        RollDown();
     }
 }

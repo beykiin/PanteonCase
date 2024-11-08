@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -8,7 +5,6 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _rotate = 600f;
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private bool isJumping;
 
     private Rigidbody _rb;
     private Vector3 _moveDirect;
@@ -18,22 +14,37 @@ public class CharacterMovement : MonoBehaviour
     public float sphereRadius = 0.5f;
     public LayerMask groundLayer;
     public bool isGrounded; 
-    public Transform groundCheckPosition; 
+    public Transform groundCheckPosition;
 
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-        _animator= GetComponent<Animator>();
 
         if (groundCheckPosition == null)
         {
-            groundCheckPosition = transform;
+            Debug.LogError("Null Referance groundCheckPosition", gameObject);
         }
 
     }
 
     private void Update()
+    {
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
+#if UNITY_EDITOR
+        DebugDrawSphere();
+#endif
+    }
+
+    private void FixedUpdate()
     {
         float _horizontal = Input.GetAxisRaw("Horizontal");
         float _vertical = Input.GetAxisRaw("Vertical");
@@ -42,41 +53,18 @@ public class CharacterMovement : MonoBehaviour
         _moveDirect = new Vector3(_horizontal, 0, _vertical).normalized;
 
 
-        if(_moveDirect.magnitude > 0)
+        if (_moveDirect.magnitude > 0)
         {
             Move();
             Rotate();
-            _animator.SetFloat("Speed",_moveDirect.magnitude);
+            _animator.SetFloat("Speed", _moveDirect.magnitude);
             Debug.Log(_rb.velocity.magnitude);
         }
         else
         {
             _animator.SetFloat("Speed", 0);
         }
-        
 
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space) && isJumping)
-        {
-            Jump();
-            isJumping = false;
-        }
-
-        if (!IsGrounded())
-        {
-            isJumping = false;
-        }
-        else
-        {
-            isJumping = true;
-        }
-
-#if UNITY_EDITOR
-        DebugDrawSphere();
-#endif
-    }
-
-    private void FixedUpdate()
-    {
         CheckGround();
     }
 
@@ -120,11 +108,6 @@ public class CharacterMovement : MonoBehaviour
         Gizmos.color = isGrounded ? Color.green : Color.red;
 
         Gizmos.DrawWireSphere(groundCheckPosition.position, sphereRadius);
-    }
-
-    public bool IsGrounded()
-    {
-        return isGrounded;
     }
 
 #if UNITY_EDITOR
