@@ -122,5 +122,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bounce: 1.1
   duration: 1.1
-  vibrate: 1.1
-  elasticity: 1.1

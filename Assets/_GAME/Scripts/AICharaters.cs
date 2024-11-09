@@ -8,6 +8,7 @@ public class AICharaters : MonoBehaviour
     public Waypoint targetWaypoint;
     private Waypoint nextTargetWaypoint;
 
+
     private void Start()
     {
         nextTargetWaypoint= targetWaypoint;
