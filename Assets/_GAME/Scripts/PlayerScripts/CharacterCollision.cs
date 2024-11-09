@@ -19,12 +19,19 @@ public class CharacterCollision : MonoBehaviour
         {
             Knockback(collision.contacts[0].normal);
 
+        }
 
-            WallBounce wallBounce = collision.gameObject.GetComponent<WallBounce>();
-            if (wallBounce != null)
-            {
-                wallBounce.BounceEffect();
-            }
+        if (collision.gameObject.TryGetComponent(out IInteractable interactable))
+        {
+            interactable.Interact();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out IInteractable interactable))
+        {
+            interactable.Interact();
         }
     }
 
