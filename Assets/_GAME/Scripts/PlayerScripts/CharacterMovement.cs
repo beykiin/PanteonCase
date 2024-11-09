@@ -58,7 +58,7 @@ public class CharacterMovement : MonoBehaviour
             Move();
             Rotate();
             _animator.SetFloat("Speed", _moveDirect.magnitude);
-            Debug.Log(_rb.velocity.magnitude);
+
         }
         else
         {
