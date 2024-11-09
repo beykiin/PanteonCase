@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
+[RequireComponent(typeof(Rigidbody))]
 public class CharacterCollision : MonoBehaviour
 {
     [SerializeField] private float _knockbackForce = 10f;
@@ -10,7 +8,7 @@ public class CharacterCollision : MonoBehaviour
 
     private Rigidbody _rb;
 
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }

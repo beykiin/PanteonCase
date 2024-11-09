@@ -22,6 +22,7 @@ public class FallingShiningObstacles : MonoBehaviour
 
     private void RollDown()
     {
+        transform.position = new Vector3(endPointPosition.position.x, startPointPosition.position.y, startPointPosition.position.z);
         transform.rotation = Quaternion.Euler(_baseRotation);
         transform.DOMove(endPointPosition.position, moveTime)
             .SetEase(Ease.Linear)
@@ -39,7 +40,6 @@ public class FallingShiningObstacles : MonoBehaviour
         yield return new WaitForSeconds(resetDelay);
 
 
-        transform.position = startPointPosition.position;
         RollDown();
     }
 }
