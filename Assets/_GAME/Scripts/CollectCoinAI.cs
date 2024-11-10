@@ -10,8 +10,8 @@ public class CollectCoinAI : MonoBehaviour
     {
         if (other.CompareTag("AI"))
         { 
-            Destroy(linkedWaypoint.gameObject);
-            linkedWaypoint = null;
+            //Destroy(linkedWaypoint.gameObject);
+            //linkedWaypoint = null;
 
 
             other.GetComponent<AICharaters>().ChooseNextWaypoint();
