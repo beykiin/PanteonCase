@@ -15,7 +15,7 @@ public class CharacterCollision : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AI"))
         {
             Knockback(collision.contacts[0].normal);
 
