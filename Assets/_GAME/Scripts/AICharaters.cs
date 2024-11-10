@@ -8,13 +8,23 @@ public class AICharaters : MonoBehaviour
     public Waypoint targetWaypoint;
     private Waypoint nextTargetWaypoint;
 
+    private Animator animator;
+    private Rigidbody _rb;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        _rb= GetComponent<Rigidbody>();
+    }
+
 
     private void Start()
     {
         nextTargetWaypoint= targetWaypoint;
+        _rb.freezeRotation= true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MoveTowardsWaypoint();
     }
@@ -22,11 +32,18 @@ public class AICharaters : MonoBehaviour
    private void MoveTowardsWaypoint()
    {
         if (nextTargetWaypoint == null) return;
-        transform.position = Vector3.MoveTowards(transform.position, nextTargetWaypoint.transform.position, speed * Time.deltaTime);
+        Vector3 direction = (nextTargetWaypoint.transform.position - transform.position).normalized;
+        _rb.MovePosition(_rb.position + direction * speed * Time.fixedDeltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, nextTargetWaypoint.transform.position, speed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, nextTargetWaypoint.transform.position) < 0.2f)
-        { 
+        {
+            animator.SetTrigger("StopWalking");
             ChooseNextWaypoint();
+        }
+        else
+        {
+            animator.SetTrigger("StartWalking");
         }
    }
 
