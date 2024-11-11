@@ -7,11 +7,15 @@ public class AICharaters : MonoBehaviour
     [SerializeField] private float speed = 2f;
     public Waypoint targetWaypoint;
     private Waypoint nextTargetWaypoint;
+    
+
 
 
     private Vector3 startPosition;
     private Animator animator;
     private Rigidbody _rb;
+    private bool isStopped = false;
+
 
     private void Awake()
     {
@@ -29,15 +33,18 @@ public class AICharaters : MonoBehaviour
 
     public void ResetAI()
     {
-        
         transform.position = startPosition;
-        nextTargetWaypoint = targetWaypoint;  
-        animator.SetTrigger("StartWalking");  
+        nextTargetWaypoint = targetWaypoint;
+        animator.SetTrigger("StartWalking");
+       
     }
 
     private void FixedUpdate()
     {
-        MoveTowardsWaypoint();
+        if (!isStopped)
+        {
+            MoveTowardsWaypoint();
+        }
     }
 
    private void MoveTowardsWaypoint()
@@ -65,7 +72,16 @@ public class AICharaters : MonoBehaviour
             nextTargetWaypoint = nextTargetWaypoint.connectedWaypoints[Random.Range(0,nextTargetWaypoint.connectedWaypoints.Count)];
         }
     }
+    public void StopAI(bool stop)
+    {
+        isStopped = stop;
+        if (stop)
+        {
+            animator.SetFloat("Speed", 0);
+        }
+    }
 
-    
+
+
 
 }
