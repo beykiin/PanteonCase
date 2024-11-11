@@ -5,10 +5,15 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _rotate = 600f;
     [SerializeField] private float _jumpForce = 5f;
+    [SerializeField] private VirtualJoystick virtualJoyistick;
+    [SerializeField] private AudioClip knockbackSound;
 
     private Rigidbody _rb;
     private Vector3 _moveDirect;
     private Animator _animator;
+    private bool isRaceFinished = false;
+    private AudioSource _audioSource;
+
 
 
     public float sphereRadius = 0.5f;
@@ -23,11 +28,18 @@ public class CharacterMovement : MonoBehaviour
 
 
 
+
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _rotatingPlatformScript = FindObjectOfType<RotatingPlatformScript>();
+        _audioSource = GetComponent<AudioSource>();
+    }
+    public void SetOnPlatform(bool value)
+    {
+        _onPlatform = value;
     }
 
     private void Start()
@@ -42,6 +54,8 @@ public class CharacterMovement : MonoBehaviour
 
     private void Update()
     {
+        if (isRaceFinished) return;
+
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -53,11 +67,16 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float _horizontal = Input.GetAxisRaw("Horizontal");
-        float _vertical = Input.GetAxisRaw("Vertical");
+        if (isRaceFinished) return;
+        //float horizontal = Input.GetAxisRaw("Horizontal");
+        //float vertical = Input.GetAxisRaw("Vertical");
+
+        float horizontal = virtualJoyistick.GetAxisRaw("Horizontal");
+        float vertical = virtualJoyistick.GetAxisRaw("Vertical");
 
 
-        _moveDirect = new Vector3(_horizontal, 0, _vertical).normalized;
+        _moveDirect = new Vector3(horizontal, 0, vertical).normalized;
+        
 
 
         if (_moveDirect.magnitude > 0)
@@ -110,6 +129,7 @@ public class CharacterMovement : MonoBehaviour
     {
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
         _animator.SetTrigger("Jump");
+        PlayJumpSound();
     }
 
     private void CheckGround()
@@ -136,17 +156,20 @@ public class CharacterMovement : MonoBehaviour
 
     public void ResetPlayer()
     {
-        transform.position = startPosition; 
-        _rb.velocity = Vector3.zero;
-        _animator.SetFloat("Speed", 0);
+        if (!isRaceFinished)
+        {
+            transform.position = startPosition;
+            _rb.velocity = Vector3.zero;
+            _animator.SetFloat("Speed", 0);
+        }
     }
 
     private void ApplyRotationForce()
     {
         if (_rotatingPlatformScript != null)
         {
-            
-            float rotationSpeed = _rotatingPlatformScript.GetRotationSpeed();
+
+            float rotationSpeed = 3f;
 
             
             Vector3 forceDirection = transform.right * rotationSpeed;
@@ -159,20 +182,18 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void StopMovement()
     {
-        if (collision.gameObject.CompareTag("RotatingPlatform"))
+        isRaceFinished = true;  
+        _animator.SetFloat("Speed", 0);
+    }
+
+    private void PlayJumpSound()
+    {
+        if (knockbackSound != null && _audioSource != null)
         {
-            _onPlatform = true;
+            _audioSource.PlayOneShot(knockbackSound);
         }
     }
 
-   
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("RotatingPlatform"))
-        {
-            _onPlatform = false;
-        }
-    }
 }

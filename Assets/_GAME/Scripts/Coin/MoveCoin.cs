@@ -5,13 +5,14 @@ using TMPro;
 [RequireComponent(typeof(BoxCollider))]
 public class MoveCoin : MonoBehaviour, IInteractable
 {
+    [SerializeField] private CoinManager coinManager;
     [SerializeField] private float distance = 1f;
     [SerializeField] private float moveTime = 1f;
-    [SerializeField] private TextMeshProUGUI coinCountText;
+    //[SerializeField] private TextMeshProUGUI coinCountText;
 
 
     private BoxCollider _collider;
-    private static int coinCount = 0;
+    //private static int coinCount = 0;
 
     private void Awake()
     {
@@ -24,9 +25,10 @@ public class MoveCoin : MonoBehaviour, IInteractable
         CoinMove();
     }
 
-    
 
-    private void CoinMove() { 
+
+    private void CoinMove()
+    {
         transform.DOMoveY(transform.position.y + distance, moveTime)
             .SetLoops(-1, LoopType.Yoyo)
             .SetEase(Ease.InOutSine);
@@ -34,12 +36,13 @@ public class MoveCoin : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        coinManager.OnCoinCollected(transform.position);
         transform.DOScale(0, 0.3f).OnComplete(() =>
         {
             gameObject.SetActive(false);
 
-            coinCount++;
-            coinCountText.text = coinCount.ToString();
+            //coinCount++;
+            //coinCountText.text = coinCount.ToString();
         });
     }
 }

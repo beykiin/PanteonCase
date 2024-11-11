@@ -8,7 +8,7 @@ public class RotatingPlatformScript : MonoBehaviour
 
 
     [SerializeField] private float _rotateForce = 90f;
-    private float _rotationSpeed;
+    
 
     public Vector3 AngularVelocity { get; private set; }
     private void Start()
@@ -23,11 +23,8 @@ public class RotatingPlatformScript : MonoBehaviour
             .SetLoops(-1, LoopType.Incremental)
             .SetEase(Ease.Linear);
 
-        _rotationSpeed = _rotateDegree / _rotateForce;
+        
     }
 
-    public float GetRotationSpeed()
-    {
-        return _rotationSpeed;
-    }
+    
 }
