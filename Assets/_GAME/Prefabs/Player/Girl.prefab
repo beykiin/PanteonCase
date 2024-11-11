@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: -3460053956791367125}
   - component: {fileID: -4356311424935165132}
   - component: {fileID: -2625931816208983299}
-  - component: {fileID: 8571894892719252702}
+  - component: {fileID: 6124290445905573389}
   m_Layer: 0
   m_Name: Girl
   m_TagString: Untagged
@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35423cd288095704ebbdf556638986d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 0
   targetWaypoint: {fileID: 0}
 --- !u!95 &-4356311424935165132
 Animator:
@@ -715,7 +715,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8571894892719252702
+--- !u!114 &6124290445905573389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -724,10 +724,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4740135510686840528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd909ef44dc23cc4c919c1ac35760e23, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d181dfaa8dc78c489a57e6caea5fc8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _knockbackForce: 4.5
+  _knockbackForce: 3.5
 --- !u!1 &4816720670607116396
 GameObject:
   m_ObjectHideFlags: 0
