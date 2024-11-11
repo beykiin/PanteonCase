@@ -16,16 +16,23 @@ public class CharacterMovement : MonoBehaviour
     public bool isGrounded; 
     public Transform groundCheckPosition;
 
+    private Vector3 startPosition;
+
+    private RotatingPlatformScript _rotatingPlatformScript;
+    private bool _onPlatform = false;
+
+
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        _rotatingPlatformScript = FindObjectOfType<RotatingPlatformScript>();
     }
 
     private void Start()
     {
-
+        startPosition = transform.position;
         if (groundCheckPosition == null)
         {
             Debug.LogError("Null Referance groundCheckPosition", gameObject);
@@ -65,7 +72,14 @@ public class CharacterMovement : MonoBehaviour
             _animator.SetFloat("Speed", 0);
         }
 
+        if (_onPlatform)
+        {
+            ApplyRotationForce();
+        }
+
         CheckGround();
+
+        
     }
 
 
@@ -103,6 +117,8 @@ public class CharacterMovement : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheckPosition.position, sphereRadius, groundLayer);
     }
 
+    
+
     private void OnDrawGizmos()
     {
         Gizmos.color = isGrounded ? Color.green : Color.red;
@@ -117,4 +133,46 @@ public class CharacterMovement : MonoBehaviour
     }
 #endif
 
+
+    public void ResetPlayer()
+    {
+        transform.position = startPosition; 
+        _rb.velocity = Vector3.zero;
+        _animator.SetFloat("Speed", 0);
+    }
+
+    private void ApplyRotationForce()
+    {
+        if (_rotatingPlatformScript != null)
+        {
+            
+            float rotationSpeed = _rotatingPlatformScript.GetRotationSpeed();
+
+            
+            Vector3 forceDirection = transform.right * rotationSpeed;
+
+            
+            if (_moveDirect.magnitude > 0)
+            {
+                _rb.AddForce(-forceDirection * _speed * Time.deltaTime, ForceMode.VelocityChange);  
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("RotatingPlatform"))
+        {
+            _onPlatform = true;
+        }
+    }
+
+   
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("RotatingPlatform"))
+        {
+            _onPlatform = false;
+        }
+    }
 }
