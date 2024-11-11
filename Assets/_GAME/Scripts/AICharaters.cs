@@ -8,6 +8,8 @@ public class AICharaters : MonoBehaviour
     public Waypoint targetWaypoint;
     private Waypoint nextTargetWaypoint;
 
+
+    private Vector3 startPosition;
     private Animator animator;
     private Rigidbody _rb;
 
@@ -20,8 +22,17 @@ public class AICharaters : MonoBehaviour
 
     private void Start()
     {
+        startPosition = transform.position;
         nextTargetWaypoint= targetWaypoint;
         _rb.freezeRotation= true;
+    }
+
+    public void ResetAI()
+    {
+        
+        transform.position = startPosition;
+        nextTargetWaypoint = targetWaypoint;  
+        animator.SetTrigger("StartWalking");  
     }
 
     private void FixedUpdate()
@@ -54,5 +65,7 @@ public class AICharaters : MonoBehaviour
             nextTargetWaypoint = nextTargetWaypoint.connectedWaypoints[Random.Range(0,nextTargetWaypoint.connectedWaypoints.Count)];
         }
     }
+
+    
 
 }

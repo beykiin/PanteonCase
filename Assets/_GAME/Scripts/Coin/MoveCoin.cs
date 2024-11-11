@@ -1,13 +1,17 @@
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 [RequireComponent(typeof(BoxCollider))]
 public class MoveCoin : MonoBehaviour, IInteractable
 {
     [SerializeField] private float distance = 1f;
     [SerializeField] private float moveTime = 1f;
+    [SerializeField] private TextMeshProUGUI coinCountText;
+
 
     private BoxCollider _collider;
+    private static int coinCount = 0;
 
     private void Awake()
     {
@@ -33,6 +37,9 @@ public class MoveCoin : MonoBehaviour, IInteractable
         transform.DOScale(0, 0.3f).OnComplete(() =>
         {
             gameObject.SetActive(false);
+
+            coinCount++;
+            coinCountText.text = coinCount.ToString();
         });
     }
 }
