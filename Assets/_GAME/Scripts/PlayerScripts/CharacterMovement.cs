@@ -6,7 +6,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float _rotate = 600f;
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private VirtualJoystick virtualJoyistick;
-    [SerializeField] private AudioClip knockbackSound;
+    [SerializeField] private AudioClip jumpSound;
 
     private Rigidbody _rb;
     private Vector3 _moveDirect;
@@ -190,9 +190,9 @@ public class CharacterMovement : MonoBehaviour
 
     private void PlayJumpSound()
     {
-        if (knockbackSound != null && _audioSource != null)
+        if (jumpSound != null && _audioSource != null)
         {
-            _audioSource.PlayOneShot(knockbackSound);
+            _audioSource.PlayOneShot(jumpSound);
         }
     }
 
