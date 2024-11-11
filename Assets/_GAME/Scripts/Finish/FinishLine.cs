@@ -8,6 +8,7 @@ public class FinishLine : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Camera paintingCamera;
     [SerializeField] private GameObject uiPanel;
+    [SerializeField] private GameObject gameCanvas;
 
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +23,7 @@ public class FinishLine : MonoBehaviour
             paintingCamera.gameObject.SetActive(true);
 
             
+            gameCanvas.SetActive(false);
             uiPanel.SetActive(true);
         }
     }
